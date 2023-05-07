@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chart</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+</head>
+<body>
+    <canvas id="myChart"></canvas>
+    <script>
+        var data = JSON.parse('{{ data_json|escapejs }}');
+        var dates = data.map(function(d) { return d[0] });
+        var counts = data.map(function(d) { return d[1]
+   });
+
+       var ctx = document.getElementById('myChart').getContext('2d');
+       var chart = new Chart(ctx, {
+           type: 'bar',
+           data: {
+               labels: dates,
+               datasets: [{
+                   label: 'Count',
+                   data: counts,
+                   backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                   borderColor: 'rgba(54, 162, 235, 1)',
+                   borderWidth: 1
+               }]
+           },
+           options: {
+               scales: {
+                   yAxes: [{
+                       ticks: {
+                           beginAtZero: true
+                       }
+                   }]
+               }
+           }
+       });
+   </script>
+<form action="{% url 'search_by_year' %}" method="get">
+  <input name="year" type="text" placeholder="Search...">
+</form>
+</body>
+</html>
